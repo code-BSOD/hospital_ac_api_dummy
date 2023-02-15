@@ -1,0 +1,172 @@
+{
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+        "/acstatus": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "description": "To know the current status of the AC whether it is on or off",
+                "operationId": "get_ac_status",
+                "tags": [
+                    "default"
+                ]
+            }
+        },
+        "/acswitch/{status}": {
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "406": {
+                        "description": "Not acceptatble value"
+                    }
+                },
+                "description": "API route to run on or off the AC",
+                "operationId": "put_ac_on_off_switch",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "Type 'on' or 'off' to switch on or off the AC"
+                    }
+                ],
+                "tags": [
+                    "default"
+                ]
+            }
+        },
+        "/presetdel/{name}": {
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "summary": "Delete a preset by name",
+                "description": "Parameter: name. REQUIRED = YES\n\n* We need to suppy a preset name in order to delete it from the preset list.",
+                "operationId": "delete_ac_api_delete",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "Name of the preset for deletion"
+                    }
+                ],
+                "tags": [
+                    "default"
+                ]
+            }
+        },
+        "/tempgetset/{req}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "summary": "To retreive the temperature, humidity & all existing presets",
+                "description": "Parameter Name: req. REQUIRED = Yes\nUser need to input an integer value ranging from 1 to 5\n\n---> Arguments and their Tasks <---\n\n1. req = 1: Get the current Temp in C and F\n2. req = 2: Get the currently set Target Temp in C and F\n3. req = 3: Get the current humidity in percentage\n4. req = 4: Get the currently set Target humidity\n5. req = 5: Listing all currently existing presets",
+                "operationId": "get_ac_api",
+                "parameters": [
+                    {
+                        "name": "req",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "description": "an integer from 1 to 5"
+                    }
+                ],
+                "tags": [
+                    "default"
+                ]
+            },
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    }
+                },
+                "summary": "For setting temperature, humidity, preset and creating presets",
+                "description": "We have 4 parameters. req, targettemp, targethum, presetname\nParameter: req. REQUIRED = YES\n\n---> Arguments and their Tasks <---\n* req = 1: Set the Target Temp\nRequired Parameters: req, targettemp\n* req = 2: Set the target humidity to specific level\nRequired parameters: req, targethum\n* req = 3: Select and activate a preset\nRequired parameters: req, presetname\n* req = 4: Create a new preset\nRequired parameters: req, presetname, targettemp, targethum",
+                "operationId": "post_ac_api",
+                "parameters": [
+                    {
+                        "name": "req",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "description": "an integer between 1 and 4"
+                    },
+                    {
+                        "name": "targettemp",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "Please provide target temperature"
+                    },
+                    {
+                        "name": "targethum",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Please provide target humidity"
+                    },
+                    {
+                        "name": "presetname",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Please provdie the preset name"
+                    }
+                ],
+                "tags": [
+                    "default"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "AirCondition API",
+        "version": "1.0",
+        "description": "A simple REST API for getting and setting AirCondition Temperature and Humidity data and making Temperature Presets"
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "tags": [
+        {
+            "name": "default",
+            "description": "Default namespace"
+        }
+    ],
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }
+    },
+    "host": "localhost"
+}
