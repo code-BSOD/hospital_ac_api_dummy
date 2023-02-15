@@ -1,6 +1,7 @@
 # hospital_ac_api_dummy
 
 University course project to create a dummy API from scratch using Flask.
+API to turn Get & Set AC temperature, humidity, presets, plus checking the AC on/off status.
 
 
 ### File Info & Usage:
